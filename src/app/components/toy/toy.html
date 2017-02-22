@@ -1,0 +1,7 @@
+<article
+  class="toy"
+  [ngClass]="{selected: toy.selected}"
+  (click)="select(toy)"
+>
+  <i class="mdi mdi-{{toy.icon}}"></i>
+</article>

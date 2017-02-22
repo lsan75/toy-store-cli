@@ -1,0 +1,13 @@
+<header>
+  <h1>
+    <a [routerLink]="['toys']">Toy Store</a>
+  </h1>
+
+  <aside>
+    <a [routerLink]="['auth']">
+      <i class="mdi mdi-basket"></i>
+      <span *ngIf="counter | async">{{ counter | async }}</span>
+    </a>
+  </aside>
+
+</header>
