@@ -4,4 +4,4 @@ import { Component } from '@angular/core'
   selector: 'app-basket',
   templateUrl: './basket.html'
 })
-export class Basket {}
+export class BasketContainer {}

@@ -6,7 +6,7 @@
       (click)="close()"
     ><i class="mdi mdi-window-close"></i></a>
 
-    <form (submit)="connect(); authForm.reset()" novalidate #authForm="ngForm">
+    <form (submit)="connect()" novalidate #authForm="ngForm">
 
       <p>
         <label for="user">Utilisateur / email</label>

@@ -14,7 +14,7 @@ import { ToysActions } from '../../store/toys/toys.actions'
 describe('ToysService', () => {
 
   const toysActions = jasmine.createSpyObj('actions', ['addToys'])
-
+  let service
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -32,9 +32,13 @@ describe('ToysService', () => {
     })
   })
 
+  beforeEach(inject([ToysService], (s: ToysService) => {
+    service = s
+  }))
+
   it('should get toys', inject(
-  [ MockBackend, ToysService ],
-  ( backend: MockBackend, s: ToysService ) => {
+  [ MockBackend ],
+  ( backend: MockBackend) => {
 
     const options: ResponseOptions = new ResponseOptions({
       body: JSON.stringify({toy: 'hello'}),
@@ -46,9 +50,13 @@ describe('ToysService', () => {
       connection.mockRespond(response)
     })
 
-    s.getToys().subscribe(res => {
+    service.getToys().subscribe(res => {
       expect(res).toEqual({toy: 'hello'})
       expect(toysActions.addToys).toHaveBeenCalledWith({toy: 'hello'})
+
+      service.getToys().subscribe(second => {
+        expect(second).toEqual([])
+      })
     })
 
   }))

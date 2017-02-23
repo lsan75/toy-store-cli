@@ -18,13 +18,15 @@ export class AuthContainer {
   @select(state => state.authReducer.opened)
   opened: Observable<boolean>
 
-  constructor(private authActions: AuthActions) {}
+  constructor(
+    private authActions: AuthActions
+  ) {}
 
   public close = () => {
     this.authActions.close()
   }
 
   public connect = () => {
-
+    this.authActions.connect(this.auth)
   }
 }

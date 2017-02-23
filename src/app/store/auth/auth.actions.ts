@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core'
 import { NgRedux } from '@angular-redux/store'
+import { Router } from '@angular/router'
+import { Observable } from 'rxjs/Rx'
 import { IAppState } from '../../store'
+import { AuthService } from '../../services/auth/auth.service'
+import { IUser } from '../../services/auth/user'
 
 export const AUTH = {
-  CONNECTED: 'AUTH_CONNECTED',
+  CONNECT: 'AUTH_CONNECT',
   OPEN: 'AUTH_OPEN',
   CLOSE: 'AUTH_CLOSE'
 }
@@ -12,7 +16,9 @@ export const AUTH = {
 export class AuthActions {
 
   constructor(
-    private store: NgRedux<IAppState>
+    private router: Router,
+    private store: NgRedux<IAppState>,
+    private authService: AuthService
   ) {}
 
   open = () => {
@@ -27,9 +33,20 @@ export class AuthActions {
     })
   }
 
-  connected = () => {
-    this.store.dispatch({
-      type: AUTH.CONNECTED
+  connect = (credentials: IUser) => {
+    return this.authService.getUser().subscribe((user: IUser) => {
+
+      if (
+        user.user === credentials.user &&
+        user.pass === credentials.pass
+      ) {
+        this.store.dispatch({
+          type: AUTH.CONNECT
+        })
+        this.close()
+        this.router.navigateByUrl('/basket')
+      }
     })
   }
+
 }

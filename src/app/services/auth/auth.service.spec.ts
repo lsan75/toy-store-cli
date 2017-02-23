@@ -1,5 +1,5 @@
 /*
- * Testing Authvice
+ * Testing AuthService
  */
 
 import { TestBed, async, fakeAsync, inject } from '@angular/core/testing'
@@ -10,7 +10,7 @@ import {
 import { MockBackend, MockConnection } from '@angular/http/testing'
 import { AuthService } from './auth.service'
 
-describe('ToysService', () => {
+describe('AuthService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -42,7 +42,7 @@ describe('ToysService', () => {
       connection.mockRespond(response)
     })
 
-    s.connect().subscribe(res => {
+    s.getUser().subscribe(res => {
       expect(res).toEqual({user: 'hello'})
     })
 

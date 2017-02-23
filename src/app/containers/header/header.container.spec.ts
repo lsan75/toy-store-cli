@@ -5,6 +5,8 @@
 import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing'
 import { By } from '@angular/platform-browser'
 import { DebugElement, NgZone, NO_ERRORS_SCHEMA } from '@angular/core'
+import { Router, RouterModule } from '@angular/router'
+import { RouterTestingModule } from '@angular/router/testing'
 
 import { NgRedux } from '@angular-redux/store'
 import { IAppState, rootReducer } from '../../store'
@@ -25,8 +27,10 @@ describe('HeaderContainer', () => {
   }
 
   const spyAuth = jasmine.createSpyObj('spyAuth', ['open'])
+
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [
         HeaderContainer
       ],
@@ -64,4 +68,12 @@ describe('HeaderContainer', () => {
     comp.auth()
     expect(spyAuth.open).toHaveBeenCalled()
   })
+
+  it('should navigate if connected', inject([Router], (router: Router) => {
+    spyOn(router, 'navigateByUrl')
+    comp.isConnected = true
+    comp.auth()
+    fixture.detectChanges()
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/basket')
+  }))
 })

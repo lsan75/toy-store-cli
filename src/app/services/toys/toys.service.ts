@@ -6,15 +6,24 @@ import { ToysActions } from '../../store/toys/toys.actions'
 @Injectable()
 export class ToysService {
 
+  private loaded = false
+
   constructor(
     private http: Http,
     private toysActions: ToysActions
   ) {}
 
   public getToys = () => {
+    if (this.loaded) {
+      return Observable.of([])
+    }
+
     return this.http.get('/src/api/toys.json')
       .map(res => res.json())
-      .do(res => this.toysActions.addToys(res))
+      .do(res => {
+        this.toysActions.addToys(res)
+        this.loaded = true
+      })
       .catch((err, caught) => Observable.throw(err.statusText))
   }
 }

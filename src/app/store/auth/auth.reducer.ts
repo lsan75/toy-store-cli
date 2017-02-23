@@ -20,7 +20,7 @@ export function authReducer(
     case AUTH.CLOSE:
       return Object.assign({}, state, { opened: false })
 
-    case AUTH.CONNECTED:
+    case AUTH.CONNECT:
       return Object.assign({}, state, {connected: true})
 
     default:

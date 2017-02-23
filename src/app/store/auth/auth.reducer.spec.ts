@@ -32,7 +32,7 @@ describe('authReducer', () => {
 
   it('should be connected', () => {
     result = authReducer(openedState, {
-      type: AUTH.CONNECTED
+      type: AUTH.CONNECT
     })
     expect(result).toEqual({
       opened: true,

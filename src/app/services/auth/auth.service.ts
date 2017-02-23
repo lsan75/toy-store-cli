@@ -8,7 +8,7 @@ export class AuthService {
     private http: Http
   ) {}
 
-  public connect = () => {
+  public getUser = () => {
 
     return this.http.get('/src/api/auth.json')
       .map(res => res.json())
