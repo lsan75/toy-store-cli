@@ -8,6 +8,7 @@ html, body {
 
 a {
   text-decoration: none;
+  cursor: pointer;
 }
 
 input {
@@ -42,18 +43,6 @@ header {
     top: -0.3em;
   }
 
-  .langs {
-    span {
-      background: none;
-      border: 1px solid @white;
-      cursor: pointer;
-      margin-top: 0.4em;
-      &.selected {
-        background: @blue;
-        cursor: default;
-      }
-    }
-  }
 }
 
 h1 {
@@ -106,6 +95,34 @@ app-toy {
 .toy-page {
   margin: 0 auto;
 }
+
+.auth {
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+  .authContent {
+    background: #000;
+    padding: 20px 20px 0;
+    position: relative;
+    width: 80%;
+  }
+  .authContent--center {
+    text-align: center;
+  }
+  .authContent__close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
 
 @media screen and (max-width: 369px) {
   app-toy { margin: 0 0 10px; }

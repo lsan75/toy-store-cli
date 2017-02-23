@@ -2,7 +2,13 @@ import { Action } from 'redux'
 import { IToy } from '../../services/toys/toy'
 import { TOYS } from './toys.actions'
 
-export function toysReducer(state: IToy[] = [], action: Action) {
+class ToyAction implements Action {
+  type: string
+  toys?: IToy[]
+  toy?: IToy
+}
+
+export function toysReducer(state: IToy[] = [], action: ToyAction) {
 
   switch (action.type) {
 

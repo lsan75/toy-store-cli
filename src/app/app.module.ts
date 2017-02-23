@@ -57,7 +57,7 @@ import { containers } from './containers'
     ServicesModule
   ],
   providers: [ DevToolsExtension, ...actions ],
-  bootstrap: [AppContainer]
+  bootstrap: [ AppContainer ]
 })
 export class AppModule {
   constructor(

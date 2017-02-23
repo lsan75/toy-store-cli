@@ -4,10 +4,12 @@
   </h1>
 
   <aside>
-    <a [routerLink]="['auth']">
+    <a (click)="auth()">
       <i class="mdi mdi-basket"></i>
       <span *ngIf="counter | async">{{ counter | async }}</span>
     </a>
   </aside>
+
+  <app-auth></app-auth>
 
 </header>

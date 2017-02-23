@@ -5,12 +5,20 @@ import { RouterTestingModule } from '@angular/router/testing'
 import { AppContainer } from './app.container'
 import { HeaderContainer } from './containers/header/header.container'
 
+import { AuthActions } from './store/auth/auth.actions'
+
 describe('AppComponent', () => {
+
+  const spyAuth = jasmine.createSpy('spyAuth')
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppContainer,
         HeaderContainer
+      ],
+      providers: [
+        { provide: AuthActions, useValue: spyAuth }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })

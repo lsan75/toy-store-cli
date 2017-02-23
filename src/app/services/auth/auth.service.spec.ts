@@ -1,5 +1,5 @@
 /*
- * Testing ToysService
+ * Testing Authvice
  */
 
 import { TestBed, async, fakeAsync, inject } from '@angular/core/testing'
@@ -8,18 +8,14 @@ import {
   RequestMethod, ConnectionBackend, Response, ResponseOptions
 } from '@angular/http'
 import { MockBackend, MockConnection } from '@angular/http/testing'
-import { ToysService } from './toys.service'
-import { ToysActions } from '../../store/toys/toys.actions'
+import { AuthService } from './auth.service'
 
 describe('ToysService', () => {
-
-  const toysActions = jasmine.createSpyObj('actions', ['addToys'])
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        ToysService,
-        { provide: ToysActions, useValue: toysActions },
+        AuthService,
         BaseRequestOptions,
         MockBackend,
         ConnectionBackend,
@@ -33,11 +29,11 @@ describe('ToysService', () => {
   })
 
   it('should get toys', inject(
-  [ MockBackend, ToysService ],
-  ( backend: MockBackend, s: ToysService ) => {
+  [ MockBackend, AuthService ],
+  ( backend: MockBackend, s: AuthService ) => {
 
     const options: ResponseOptions = new ResponseOptions({
-      body: JSON.stringify({toy: 'hello'}),
+      body: JSON.stringify({user: 'hello'}),
       status: 200
     })
     const response = new Response(options)
@@ -46,9 +42,8 @@ describe('ToysService', () => {
       connection.mockRespond(response)
     })
 
-    s.getToys().subscribe(res => {
-      expect(res).toEqual({toy: 'hello'})
-      expect(toysActions.addToys).toHaveBeenCalledWith({toy: 'hello'})
+    s.connect().subscribe(res => {
+      expect(res).toEqual({user: 'hello'})
     })
 
   }))

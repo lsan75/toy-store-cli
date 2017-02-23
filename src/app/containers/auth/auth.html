@@ -1,0 +1,43 @@
+<div class="auth" *ngIf="opened | async">
+  <div class="authContent">
+
+    <a
+      class="authContent__close"
+      (click)="close()"
+    ><i class="mdi mdi-window-close"></i></a>
+
+    <form (submit)="connect(); authForm.reset()" novalidate #authForm="ngForm">
+
+      <p>
+        <label for="user">Utilisateur / email</label>
+        <input
+          type="email"
+          name="user"
+          [(ngModel)]="auth.user"
+          #user="ngModel"
+          required
+          pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+          autofocus
+        >
+      </p>
+
+      <p>
+        <label for="pass">Mot de passe</label>
+        <input
+          type="password"
+          name="pass"
+          [(ngModel)]="auth.pass"
+          #pass="ngModel"
+          required
+        >
+      </p>
+
+      <p class="authContent--center">
+        <button
+          [disabled]="!authForm.valid"
+        >Connection</button>
+      </p>
+
+    </form>
+  </div>
+</div>
