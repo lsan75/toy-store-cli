@@ -7,7 +7,7 @@ import { AuthActions } from './auth.actions'
 import { AuthService } from '../../services/auth/auth.service'
 import { NgRedux } from '@angular-redux/store'
 import { Observable } from 'rxjs/Rx'
-import { Router, RouterModule } from '@angular/router'
+import { Router } from '@angular/router'
 import { RouterTestingModule } from '@angular/router/testing'
 
 describe('AuthActions', () => {
@@ -53,12 +53,14 @@ describe('AuthActions', () => {
     })
   })
 
-  it('should connect', () => {
+  it('should connect', inject([Router], (router: Router) => {
+    spyOn(router, 'navigateByUrl')
     authActions.connect({user: 'too', pass: '123'})
     expect(spyAuth.getUser).toHaveBeenCalled()
     expect(spyRedux.dispatch).toHaveBeenCalledWith({
       type: 'AUTH_CONNECT'
     })
-  })
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/basket')
+  }))
 
 })

@@ -13,7 +13,7 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule, RouterTestingModule],
+      imports: [RouterTestingModule],
       declarations: [
         AppContainer,
         HeaderContainer
