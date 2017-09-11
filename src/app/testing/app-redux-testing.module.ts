@@ -6,7 +6,7 @@ import { IAppState, rootReducer } from '../store'
 
 const reduxFactory = () => {
   const ngRedux: NgRedux<IAppState> = MockNgRedux.getInstance()
-  ngRedux.configureStore(rootReducer, undefined)
+  ngRedux.configureStore(rootReducer, null)
   return ngRedux
 }
 
