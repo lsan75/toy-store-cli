@@ -4,33 +4,30 @@
 
 import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing'
 import { By } from '@angular/platform-browser'
-import { DebugElement, NgZone, NO_ERRORS_SCHEMA } from '@angular/core'
+import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core'
 
 import { NgRedux } from '@angular-redux/store'
-import { IAppState, rootReducer } from '../../store'
+import { AppReduxTestingModule } from '../../testing/app-redux-testing.module'
+
+import { IAppState } from '../../store'
 
 import { ToysContainer } from './toys.container'
 import { TOYS, ToysActions } from '../../store/toys/toys.actions'
+import { IToy } from '../../services/toys/toy'
 
 describe('ToysContainer', () => {
   let fixture: ComponentFixture<ToysContainer>
   let comp: ToysContainer
   let _ngRedux
-  const zone: NgZone = new NgZone({enableLongStackTrace: false})
-  const reduxFactory = () => {
-    const ngRedux: NgRedux<IAppState> = new NgRedux<IAppState>(zone)
-    ngRedux.configureStore(rootReducer, undefined)
-    return ngRedux
-  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [ AppReduxTestingModule ],
       declarations: [
         ToysContainer
       ],
       providers: [
-        ToysActions,
-        { provide: NgRedux, useFactory: reduxFactory}
+        ToysActions
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })
@@ -44,7 +41,11 @@ describe('ToysContainer', () => {
   }))
 
   it('should get toys', () => {
-    const toys = [{selected: true}, {selected: false}, {selected: true}]
+    const toys: IToy[] = [
+      { selected: true, icon: null, title: null, price: 0 },
+      { selected: false, icon: null, title: null, price: 0 },
+      { selected: true, icon: null, title: null, price: 0 }
+    ]
     _ngRedux.dispatch({
       type: TOYS.GET_TOYS,
       toys

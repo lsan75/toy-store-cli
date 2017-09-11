@@ -6,8 +6,11 @@ import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing'
 import { By } from '@angular/platform-browser'
 import { DebugElement, NgZone, NO_ERRORS_SCHEMA } from '@angular/core'
 import { FormsModule } from '@angular/forms'
+
 import { NgRedux } from '@angular-redux/store'
-import { IAppState, rootReducer } from '../../store'
+import { AppReduxTestingModule } from '../../testing/app-redux-testing.module'
+
+import { IAppState } from '../../store'
 
 import { AuthContainer } from './auth.container'
 import { AuthActions } from '../../store/auth/auth.actions'
@@ -16,23 +19,16 @@ describe('AuthContainer', () => {
   let fixture: ComponentFixture<AuthContainer>
   let comp: AuthContainer
   let _ngRedux
-  const zone: NgZone = new NgZone({enableLongStackTrace: false})
-  const reduxFactory = () => {
-    const ngRedux: NgRedux<IAppState> = new NgRedux<IAppState>(zone)
-    ngRedux.configureStore(rootReducer, undefined)
-    return ngRedux
-  }
 
   const spyAuth = jasmine.createSpyObj('spyAuth', ['close', 'connect'])
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule],
+      imports: [FormsModule, AppReduxTestingModule],
       declarations: [
         AuthContainer
       ],
       providers: [
-        { provide: AuthActions, useValue: spyAuth },
-        { provide: NgRedux, useFactory: reduxFactory}
+        { provide: AuthActions, useValue: spyAuth }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })

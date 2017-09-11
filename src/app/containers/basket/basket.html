@@ -9,7 +9,7 @@
 
   <aside>
     <strong>Total :</strong>
-    <span>{{price | currency:'EUR':true:'1.2-2' }}</span>
+    <span>{{price | async | currency:'EUR':true:'1.2-2' }}</span>
   </aside>
 
   <footer>

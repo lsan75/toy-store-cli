@@ -4,6 +4,9 @@ import { select } from '@angular-redux/store'
 import { Observable } from 'rxjs/Rx'
 import { AuthActions } from '../../store/auth/auth.actions'
 
+import * as toysQueries from '../../store/toys/toys.queries'
+import * as authQueries from '../../store/auth/auth.queries'
+
 @Component({
   selector: 'app-header-container',
   templateUrl: './header.html'
@@ -12,10 +15,8 @@ export class HeaderContainer implements OnDestroy, OnInit {
 
   public isConnected = false
 
-  @select(state => state.toysReducer.filter(toy => toy.selected).length)
-  counter: Observable<number>
-
-  @select(state => state.authReducer.connected) connected: Observable<boolean>
+  @select(toysQueries.getToysCount) counter: Observable<number>
+  @select(authQueries.connected) connected: Observable<boolean>
 
   private unsub
 

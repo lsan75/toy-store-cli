@@ -4,33 +4,22 @@ import { Observable } from 'rxjs/Rx'
 import { ToysActions } from '../../store/toys/toys.actions'
 import { IToy } from '../../services/toys/toy'
 
+import * as toysQueries from '../../store/toys/toys.queries'
+
 @Component({
   selector: 'app-basket',
   templateUrl: './basket.html'
 })
-export class BasketContainer implements OnInit, OnDestroy {
+export class BasketContainer {
 
-  public price = 0
   private sub
 
-  @select(state => state.toysReducer.filter(toy => toy.selected))
-  toys: Observable<IToy[]>
+  @select(toysQueries.getSelectedToys) toys: Observable<IToy[]>
+  @select(toysQueries.getTotalPrice) price: Observable<number>
 
   constructor(
     private toysActions: ToysActions
   ) {}
-
-  ngOnInit() {
-    this.sub = this.toys.subscribe(res => {
-      this.price = res.reduce((acc, item) => {
-        return acc + item.price
-      }, 0)
-    })
-  }
-
-  ngOnDestroy() {
-    if (this.sub) { this.sub.unsubscribe() }
-  }
 
   public delete = toy => {
     this.toysActions.selectToy(toy)

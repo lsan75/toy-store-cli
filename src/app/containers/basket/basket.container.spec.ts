@@ -2,12 +2,14 @@
  * Testing BasketContainer
  */
 
-import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing'
+import { TestBed, async, ComponentFixture, inject, fakeAsync, tick } from '@angular/core/testing'
 import { By } from '@angular/platform-browser'
-import { DebugElement, NgZone, NO_ERRORS_SCHEMA } from '@angular/core'
+import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core'
 
 import { NgRedux } from '@angular-redux/store'
-import { IAppState, rootReducer } from '../../store'
+import { AppReduxTestingModule } from '../../testing/app-redux-testing.module'
+
+import { IAppState } from '../../store'
 
 import { BasketContainer } from './basket.container'
 import { TOYS, ToysActions } from '../../store/toys/toys.actions'
@@ -16,27 +18,21 @@ describe('BasketContainer', () => {
   let fixture: ComponentFixture<BasketContainer>
   let comp: BasketContainer
   let _ngRedux
-  const zone: NgZone = new NgZone({enableLongStackTrace: false})
-  const reduxFactory = () => {
-    const ngRedux: NgRedux<IAppState> = new NgRedux<IAppState>(zone)
-    ngRedux.configureStore(rootReducer, undefined)
-    return ngRedux
-  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [ AppReduxTestingModule ],
       declarations: [
         BasketContainer
       ],
       providers: [
-        ToysActions,
-        { provide: NgRedux, useFactory: reduxFactory}
+        ToysActions
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })
   })
 
-  beforeEach(inject([NgRedux],
+  beforeEach(inject([ NgRedux ],
   (ngRedux: NgRedux<IAppState>) => {
     fixture = TestBed.createComponent(BasketContainer)
     comp = fixture.componentInstance
@@ -67,18 +63,20 @@ describe('BasketContainer', () => {
 
   it('should compute the price', () => {
     const toys = [
-      {selected: true, price: 10},
-      {selected: false},
-      {selected: true, price: 20}
+      { selected: true, price: 10 },
+      { selected: false },
+      { selected: true, price: 20 }
     ]
     _ngRedux.dispatch({
       type: TOYS.GET_TOYS,
       toys
     })
-    comp.ngOnInit()
+
     fixture.detectChanges()
 
-    expect(comp.price).toBe(30)
+    comp.price.subscribe(res => {
+      expect(res).toBe(30)
+    })
 
   })
 })

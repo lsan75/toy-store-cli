@@ -4,12 +4,14 @@
 
 import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing'
 import { By } from '@angular/platform-browser'
-import { DebugElement, NgZone, NO_ERRORS_SCHEMA } from '@angular/core'
+import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core'
 import { Router, RouterModule } from '@angular/router'
 import { RouterTestingModule } from '@angular/router/testing'
 
 import { NgRedux } from '@angular-redux/store'
-import { IAppState, rootReducer } from '../../store'
+import { AppReduxTestingModule } from '../../testing/app-redux-testing.module'
+
+import { IAppState } from '../../store'
 
 import { HeaderContainer } from './header.container'
 import { TOYS } from '../../store/toys/toys.actions'
@@ -19,23 +21,16 @@ describe('HeaderContainer', () => {
   let fixture: ComponentFixture<HeaderContainer>
   let comp: HeaderContainer
   let _ngRedux
-  const zone: NgZone = new NgZone({enableLongStackTrace: false})
-  const reduxFactory = () => {
-    const ngRedux: NgRedux<IAppState> = new NgRedux<IAppState>(zone)
-    ngRedux.configureStore(rootReducer, undefined)
-    return ngRedux
-  }
 
   const spyAuth = jasmine.createSpyObj('spyAuth', ['open'])
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [ RouterTestingModule, AppReduxTestingModule ],
       declarations: [
         HeaderContainer
       ],
       providers: [
-        { provide: NgRedux, useFactory: reduxFactory},
         { provide: AuthActions, useValue: spyAuth }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]

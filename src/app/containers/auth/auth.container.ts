@@ -3,6 +3,7 @@ import { select } from '@angular-redux/store'
 import { Observable } from 'rxjs/Rx'
 
 import { AuthActions } from '../../store/auth/auth.actions'
+import * as authQueries from '../../store/auth/auth.queries'
 
 @Component({
   selector: 'app-auth',
@@ -15,8 +16,7 @@ export class AuthContainer {
     pass: null
   }
 
-  @select(state => state.authReducer.opened)
-  opened: Observable<boolean>
+  @select(authQueries.opened) opened: Observable<boolean>
 
   constructor(
     private authActions: AuthActions

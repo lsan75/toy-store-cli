@@ -3,28 +3,23 @@
  */
 
 import { TestBed, async, fakeAsync, inject } from '@angular/core/testing'
-import { NgZone } from '@angular/core'
+
 import { NgRedux } from '@angular-redux/store'
-import { IAppState, rootReducer } from '../../store'
+import { AppReduxTestingModule } from '../../testing/app-redux-testing.module'
+
+import { IAppState } from '../../store'
 import { AuthGuard } from './auth.guard'
 
 describe('AuthGuard', () => {
 
   let guard
-
   let redux
-  const zone: NgZone = new NgZone({enableLongStackTrace: false})
-  const reduxFactory = () => {
-    const ngRedux: NgRedux<IAppState> = new NgRedux<IAppState>(zone)
-    ngRedux.configureStore(rootReducer, undefined)
-    return ngRedux
-  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [ AppReduxTestingModule ],
       providers: [
-        AuthGuard,
-        { provide: NgRedux, useFactory: reduxFactory}
+        AuthGuard
       ]
     })
   })
