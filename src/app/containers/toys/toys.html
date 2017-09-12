@@ -1,10 +1,11 @@
 <main class="toy-page">
 
-  <app-toy
-    *ngFor="let toy of toys | async"
-    [toy]="toy"
-    (selectRequest)="onSelect($event)"
-  >
-  </app-toy>
+  <article class="toy-item" *ngFor="let toy of toys | async">
+    <app-toy
+      [toy]="toy"
+      (selectRequest)="onSelect($event)"
+    >
+    </app-toy>
+  </article>
 
 </main>

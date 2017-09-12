@@ -57,7 +57,7 @@ h1 {
   }
 }
 
-app-toy {
+.toy-item {
   float: left;
   height: 180px;
   margin: 0 10px 10px 0;
@@ -69,7 +69,7 @@ app-toy {
   cursor: pointer;
   height: 180px;
   position: relative;
-  width: 180px;
+  width: 100%;
   &.selected {
     border-color: @yellow;
     border-width: 5px;
@@ -125,35 +125,35 @@ app-toy {
   }
 
 @media screen and (max-width: 369px) {
-  app-toy { margin: 0 0 10px; }
+  .toy-item { margin: 0 0 10px; }
   .toy-page { width: 180px; }
 }
 @media screen and (min-width: 370px) and (max-width: 559px) {
-  app-toy:nth-of-type(even) {
+  .toy-item:nth-of-type(even) {
     margin: 0 0 10px;
   }
   .toy-page { width: 370px; }
 }
 @media screen and (min-width: 560px) and (max-width: 749px) {
-  app-toy:nth-of-type(3n) {
+  .toy-item:nth-of-type(3n) {
     margin: 0 0 10px;
   }
   .toy-page { width: 560px; }
 }
 @media screen and (min-width: 750px) and (max-width: 939px) {
-  app-toy:nth-of-type(4n) {
+  .toy-item:nth-of-type(4n) {
     margin: 0 0 10px;
   }
   .toy-page { width: 750px; }
 }
 @media screen and (min-width: 940px) and (max-width: 1129px) {
-  app-toy:nth-of-type(5n) {
+  .toy-item:nth-of-type(5n) {
     margin: 0 0 10px;
   }
   .toy-page { width: 940px; }
 }
 @media screen and (min-width: 1130px) {
-  app-toy:nth-of-type(6n) {
+  .toy-item:nth-of-type(6n) {
     margin: 0 0 10px;
   }
   .toy-page { width: 1130px; }

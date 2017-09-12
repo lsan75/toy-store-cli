@@ -18,7 +18,7 @@ export class ToysService {
       return Observable.of([])
     }
 
-    return this.http.get('/src/api/toys.json')
+    return this.http.get('api/toys.json')
       .map(res => res.json())
       .do(res => {
         this.toysActions.addToys(res)

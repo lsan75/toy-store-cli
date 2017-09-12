@@ -10,7 +10,7 @@ export class AuthService {
 
   public getUser = () => {
 
-    return this.http.get('/src/api/auth.json')
+    return this.http.get('api/auth.json')
       .map(res => res.json())
 
   }
