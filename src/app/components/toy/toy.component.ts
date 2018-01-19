@@ -9,7 +9,7 @@ import { IToy } from '../../services/toys/toy'
 
 @Component({
   selector: 'app-toy',
-  template: require('./toy.html'),
+  templateUrl: './toy.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToyComponent {
