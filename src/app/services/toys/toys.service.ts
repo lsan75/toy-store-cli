@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core'
-import { Http } from '@angular/http'
-import { Observable } from 'rxjs/Rx'
+import { HttpClient } from '@angular/common/http'
+import { Observable } from 'rxjs/Observable'
 import { ToysActions } from '../../store/toys/toys.actions'
+import { IToy } from './toy'
 
 @Injectable()
 export class ToysService {
@@ -9,7 +10,7 @@ export class ToysService {
   private loaded = false
 
   constructor(
-    private http: Http,
+    private http: HttpClient,
     private toysActions: ToysActions
   ) {}
 
@@ -18,8 +19,7 @@ export class ToysService {
       return Observable.of([])
     }
 
-    return this.http.get('api/toys.json')
-      .map(res => res.json())
+    return this.http.get<IToy[]>('api/toys.json')
       .do(res => {
         this.toysActions.addToys(res)
         this.loaded = true

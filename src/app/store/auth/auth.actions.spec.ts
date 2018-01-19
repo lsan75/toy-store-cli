@@ -16,7 +16,7 @@ describe('AuthActions', () => {
   const spyRedux = jasmine.createSpyObj('spyRedux', ['dispatch'])
   const spyAuth = jasmine.createSpyObj('spyAuth', ['getUser'])
   spyAuth.getUser.and.callFake(() => {
-    return Observable.of({user: 'too', pass: '123'})
+    return Observable.of({ body: {user: 'too', pass: '123'} })
   })
   beforeEach(() => {
     TestBed.configureTestingModule({

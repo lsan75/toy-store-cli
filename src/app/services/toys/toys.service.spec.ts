@@ -4,10 +4,9 @@
 
 import { TestBed, async, fakeAsync, inject } from '@angular/core/testing'
 import {
-  Http, BaseRequestOptions,
-  RequestMethod, ConnectionBackend, Response, ResponseOptions
-} from '@angular/http'
-import { MockBackend, MockConnection } from '@angular/http/testing'
+  HttpClientTestingModule, HttpTestingController
+} from '@angular/common/http/testing'
+import { HttpClient } from '@angular/common/http'
 import { ToysService } from './toys.service'
 import { ToysActions } from '../../store/toys/toys.actions'
 
@@ -17,17 +16,10 @@ describe('ToysService', () => {
   let service
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule ],
       providers: [
         ToysService,
-        { provide: ToysActions, useValue: toysActions },
-        BaseRequestOptions,
-        MockBackend,
-        ConnectionBackend,
-        {
-          provide: Http,
-          useFactory: (backend, options) => new Http(backend, options),
-          deps: [ MockBackend, BaseRequestOptions ]
-        }
+        { provide: ToysActions, useValue: toysActions }
       ]
     })
   })
@@ -36,19 +28,14 @@ describe('ToysService', () => {
     service = s
   }))
 
+  afterEach(inject(
+  [HttpTestingController], (httpMock: HttpTestingController) => {
+    httpMock.verify()
+  }))
+
   it('should get toys', inject(
-  [ MockBackend ],
-  ( backend: MockBackend) => {
-
-    const options: ResponseOptions = new ResponseOptions({
-      body: JSON.stringify({toy: 'hello'}),
-      status: 200
-    })
-    const response = new Response(options)
-
-    backend.connections.subscribe((connection: MockConnection) => {
-      connection.mockRespond(response)
-    })
+  [ HttpClient, HttpTestingController ],
+  ( http, httpMock ) => {
 
     service.getToys().subscribe(res => {
       expect(res).toEqual({toy: 'hello'})
@@ -58,6 +45,10 @@ describe('ToysService', () => {
         expect(second).toEqual([])
       })
     })
+
+    const req = httpMock.expectOne('api/toys.json')
+    expect(req.request.method).toEqual('GET')
+    req.flush({toy: 'hello'})
 
   }))
 

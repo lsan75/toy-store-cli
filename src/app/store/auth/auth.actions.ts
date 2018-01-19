@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Rx'
 import { IAppState } from '../../store'
 import { AuthService } from '../../services/auth/auth.service'
 import { IUser } from '../../services/auth/user'
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http'
 
 export const AUTH = {
   CONNECT: 'AUTH_CONNECT',
@@ -34,19 +35,28 @@ export class AuthActions {
   }
 
   connect = (credentials: IUser) => {
-    return this.authService.getUser().subscribe((user: IUser) => {
+    return this.authService.getUser().subscribe(
+      (user: HttpResponse<IUser>) => {
 
-      if (
-        user.user === credentials.user &&
-        user.pass === credentials.pass
-      ) {
-        this.store.dispatch({
-          type: AUTH.CONNECT
-        })
-        this.close()
-        this.router.navigateByUrl('/basket')
+        if (
+          user.body.user === credentials.user &&
+          user.body.pass === credentials.pass
+        ) {
+          this.store.dispatch({
+            type: AUTH.CONNECT
+          })
+          this.close()
+          this.router.navigateByUrl('/basket')
+        }
+      },
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log(err)
+        } else {
+          console.log( `${err.status} : ${err.statusText}` )
+        }
       }
-    })
+    )
   }
 
 }
