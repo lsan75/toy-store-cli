@@ -12,8 +12,6 @@ import * as toysQueries from '../../store/toys/toys.queries'
 })
 export class BasketContainer {
 
-  private sub
-
   @select(toysQueries.getSelectedToys) toys: Observable<IToy[]>
   @select(toysQueries.getTotalPrice) price: Observable<number>
 

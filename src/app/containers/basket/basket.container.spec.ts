@@ -2,7 +2,9 @@
  * Testing BasketContainer
  */
 
-import { TestBed, async, ComponentFixture, inject, fakeAsync, tick } from '@angular/core/testing'
+import {
+  TestBed, async, ComponentFixture, inject, fakeAsync, tick
+} from '@angular/core/testing'
 import { By } from '@angular/platform-browser'
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core'
 
@@ -19,6 +21,10 @@ describe('BasketContainer', () => {
   let comp: BasketContainer
   let _ngRedux
 
+  const spyToysActions = jasmine.createSpyObj(
+    'spyToysActions', ['addToys', 'selectToy']
+  )
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ AppReduxTestingModule ],
@@ -26,7 +32,10 @@ describe('BasketContainer', () => {
         BasketContainer
       ],
       providers: [
-        ToysActions
+        {
+          provide: ToysActions,
+          useValue: spyToysActions
+        }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })
@@ -39,27 +48,26 @@ describe('BasketContainer', () => {
     _ngRedux = ngRedux
   }))
 
-  it('should get toys', () => {
+  it('should get toys', done => {
+    fixture.detectChanges()
+
     const toys = [{selected: true}, {selected: false}, {selected: true}]
     _ngRedux.dispatch({
       type: TOYS.GET_TOYS,
       toys
     })
-    fixture.detectChanges()
 
     comp.toys.subscribe(res => {
       expect(res.length).toBe(2)
+      done()
     })
   })
 
-  it('should delete a toy', inject([ToysActions],
-  (toysActions: ToysActions) => {
-    spyOn(toysActions, 'selectToy')
-    comp.delete('hello')
+  it('should delete a toy', () => {
     fixture.detectChanges()
-
-    expect(toysActions.selectToy).toHaveBeenCalledWith('hello')
-  }))
+    comp.delete('hello')
+    expect(spyToysActions.selectToy).toHaveBeenCalledWith('hello')
+  })
 
   it('should compute the price', () => {
     const toys = [

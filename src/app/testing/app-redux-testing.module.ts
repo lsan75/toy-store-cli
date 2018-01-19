@@ -1,19 +1,20 @@
 import { NgModule } from '@angular/core'
 
-import { NgRedux } from '@angular-redux/store'
-import { NgReduxTestingModule, MockNgRedux } from '@angular-redux/store/testing'
-import { IAppState, rootReducer } from '../store'
-
-const reduxFactory = () => {
-  const ngRedux: NgRedux<IAppState> = MockNgRedux.getInstance()
-  ngRedux.configureStore(rootReducer, null)
-  return ngRedux
-}
+import { NgRedux, NgReduxModule } from '@angular-redux/store'
+import { IAppState, rootReducer, defaultState } from '../store'
 
 @NgModule({
-  imports: [ NgReduxTestingModule ],
-  providers: [
-    { provide: NgRedux, useFactory: reduxFactory}
-  ]
+  imports: [ NgReduxModule ]
 })
-export class AppReduxTestingModule {}
+export class AppReduxTestingModule {
+  constructor(
+    public ngRedux: NgRedux<IAppState>
+  ) {
+    ngRedux.configureStore(
+      rootReducer,
+      defaultState,
+      [], []
+    )
+  }
+
+}
